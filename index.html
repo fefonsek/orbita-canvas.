@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Órbita: Modelo de Negócios</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F8F9FA;
+      color: #1A1A2E;
+      padding: 32px;
+    }
+
+    /* CABEÇALHO */
+    .page-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .page-header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1A1A2E;
+      letter-spacing: -0.5px;
+    }
+    .page-header p {
+      font-size: 13px;
+      color: #6B7280;
+      margin-top: 6px;
+    }
+    .page-header .meta {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+      padding: 8px 20px;
+      background: #fff;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #374151;
+    }
+    .page-header .meta span { font-weight: 600; }
+
+    /* CNAE ATUAL */
+    .cnae-atual {
+      background: #F0FDF4;
+      border: 1.5px solid #86EFAC;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+    }
+    .cnae-atual h2 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #15803D;
+      margin-bottom: 10px;
+    }
+    .cnae-atual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .cnae-atual-item {
+      background: #fff;
+      border: 1px solid #BBF7D0;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .cnae-atual-item .tipo {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #15803D;
+      margin-bottom: 4px;
+    }
+    .cnae-atual-item .cod {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: monospace;
+      color: #1A1A2E;
+    }
+    .cnae-atual-item .nome {
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      margin: 3px 0 2px;
+    }
+    .cnae-atual-item .ocup {
+      font-size: 11px;
+      color: #6B7280;
+    }
+
+    /* ESTRUTURA DE MARCA */
+    .brand-section {
+      border: 2px dashed #CBD5E1;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      background: #fff;
+    }
+    .brand-section .brand-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6366F1;
+      margin-bottom: 12px;
+    }
+    .vertentes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .vertente {
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .v-sal {
+      background: #F5F3FF;
+      border: 1px solid #C4B5FD;
+    }
+    .v-fef {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+    }
+    .v-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .v-sal .v-label { color: #6D28D9; }
+    .v-fef .v-label { color: #1D4ED8; }
+    .v-item { font-size: 12.5px; color: #374151; line-height: 1.5; }
+    .v-sub { font-size: 11px; color: #6B7280; margin-top: 4px; line-height: 1.4; }
+
+    .discord-bar {
+      background: #F0FDF4;
+      border: 1px solid #86EFAC;
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .discord-bar .d-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #15803D;
+      white-space: nowrap;
+    }
+    .discord-bar .d-desc {
+      font-size: 12px;
+      color: #374151;
+    }
+
+    /* FUNIL */
+    .funnel {
+      text-align: center;
+      font-size: 12px;
+      color: #6B7280;
+      padding: 10px 0;
+      margin-bottom: 6px;
+    }
+    .funnel .arrow { color: #D1D5DB; margin: 0 8px; }
+    .funnel strong { color: #374151; }
+
+    /* BMC GRID */
+    .bmc {
+      display: grid;
+      grid-template-columns: 2fr 1fr 2fr 1fr 2fr;
+      grid-template-rows: auto auto;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .cell {
+      background: #fff;
+      border: 1px solid #E5E7EB;
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .cell h3 {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #9CA3AF;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #F3F4F6;
+    }
+    .cell ul { list-style: none; }
+    .cell ul li {
+      font-size: 12px;
+      color: #374151;
+      line-height: 1.55;
+      padding: 3px 0;
+      border-bottom: 0.5px solid #F3F4F6;
+      display: flex;
+      align-items: flex-start;
+      gap: 5px;
+    }
+    .cell ul li:last-child { border-bottom: none; }
+
+    .al { border-left: 3px solid #8B5CF6; }
+    .ag { border-left: 3px solid #10B981; }
+    .ab { border-left: 3px solid #3B82F6; }
+    .ar { border-left: 3px solid #F59E0B; }
+    .ac { border-left: 3px solid #EF4444; }
+
+    .tag {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 99px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .t-sal { background: #EDE9FE; color: #6D28D9; }
+    .t-fef { background: #DBEAFE; color: #1D4ED8; }
+    .t-orb { background: #D1FAE5; color: #065F46; }
+
+    .row-bottom {
+      grid-column: span 5;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* SEÇÃO CNAEs SUGERIDOS */
+    .cnae-section {
+      background: #fff;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .cnae-section h2 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1A1A2E;
+      margin-bottom: 4px;
+    }
+    .cnae-section .cnae-intro {
+      font-size: 12px;
+      color: #6B7280;
+      margin-bottom: 16px;
+    }
+    .cnae-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .cnae-card {
+      border-radius: 8px;
+      padding: 12px 14px;
+      border: 1px solid #E5E7EB;
+    }
+    .cnae-card.primary { border-color: #A5B4FC; background: #F5F3FF; }
+    .cnae-card.secondary { border-color: #BAE6FD; background: #F0F9FF; }
+    .cnae-card.tertiario { border-color: #FDE68A; background: #FFFBEB; }
+    .cnae-card .cnae-cod {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1A1A2E;
+      font-family: monospace;
+    }
+    .cnae-card .cnae-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      margin: 3px 0;
+    }
+    .cnae-card .cnae-desc {
+      font-size: 11.5px;
+      color: #6B7280;
+      line-height: 1.4;
+    }
+    .cnae-card .cnae-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .primary .cnae-label { color: #6D28D9; }
+    .secondary .cnae-label { color: #0369A1; }
+    .tertiario .cnae-label { color: #92400E; }
+
+    .cnae-obs {
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: #FFFBEB;
+      border: 1px solid #FCD34D;
+      border-radius: 8px;
+      font-size: 11.5px;
+      color: #92400E;
+      line-height: 1.5;
+    }
+
+    /* RODAPÉ */
+    .page-footer {
+      text-align: center;
+      font-size: 11px;
+      color: #9CA3AF;
+      padding-top: 16px;
+      border-top: 1px solid #E5E7EB;
+    }
+
+    /* PRINT */
+    @media print {
+      body { background: #fff; padding: 20px; }
+      .bmc { page-break-inside: avoid; }
+      .cnae-section { page-break-before: always; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <div class="page-header">
+    <h1>🪐 Órbita: Modelo de Negócios</h1>
+    <p>Business Model Canvas · Apresentação para Assessoria Contábil</p>
+    <div class="meta">
+      <div>Titular: <span>Felipe Luiz Fonseca</span></div>
+      <div>CNPJ: <span>67.550.599/0001-08</span></div>
+      <div>Abertura: <span>17/06/2026</span></div>
+      <div>Domínio: <span>orbitaspace.com.br</span></div>
+      <div>Regime: <span>MEI · Ativo</span></div>
+      <div>Data: <span>Outubro/2026</span></div>
+    </div>
+  </div>
+
+  <!-- CNAEs ATUAIS -->
+  <div class="cnae-atual">
+    <h2>✅ CNAEs registrados atualmente (CCMEI)</h2>
+    <div class="cnae-atual-grid">
+      <div class="cnae-atual-item">
+        <div class="tipo">Atividade Principal</div>
+        <div class="cod">8599-6/99</div>
+        <div class="nome">Outras atividades de ensino não especificadas anteriormente</div>
+        <div class="ocup">Ocupação: Professor(a) particular, independente · Forma de atuação: Internet</div>
+      </div>
+      <div class="cnae-atual-item">
+        <div class="tipo">Atividade Secundária</div>
+        <div class="cod">9001-9/02</div>
+        <div class="nome">Produção musical</div>
+        <div class="ocup">Ocupação: Cantor(a)/músico(a) independente</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTRUTURA DE MARCA -->
+  <div class="brand-section">
+    <div class="brand-label">🪐 Órbita · Marca Guarda-Chuva · MEI único · CNPJ único</div>
+    <div class="vertentes">
+      <div class="vertente v-sal">
+        <div class="v-label">✦ Saline Astral (@salineastral)</div>
+        <div class="v-item">Vertente: Espiritualidade &amp; Autoconhecimento</div>
+        <div class="v-sub">Canais: TikTok · Instagram · Spotify<br>Produtos: Música (streaming gratuito) · Cursos de Autoconhecimento (Hotmart) · Álbuns de meditação exclusivos</div>
+      </div>
+      <div class="vertente v-fef">
+        <div class="v-label">◈ Felipe Fonseca (@fefonsek)</div>
+        <div class="v-item">Vertente: Dados, Negócios &amp; Estratégia</div>
+        <div class="v-sub">Canais: YouTube · TikTok · LinkedIn<br>Produtos: Consultoria BI · Análise Estatística (TCC/Dissertações) · Cursos (Hotmart)</div>
+      </div>
+    </div>
+    <div class="discord-bar">
+      <div class="d-label">Discord: Hub Central</div>
+      <div class="d-desc">Comunidade que reúne os públicos das duas vertentes. Conteúdo gratuito, engajamento contínuo e porta de entrada para os produtos pagos.</div>
+    </div>
+  </div>
+
+  <!-- FUNIL -->
+  <div class="funnel">
+    <strong>Conteúdo gratuito</strong> (TikTok / YouTube / LinkedIn)
+    <span class="arrow">→</span>
+    <strong>Discord</strong> (comunidade)
+    <span class="arrow">→</span>
+    <strong>Hotmart / Consultoria</strong> (receita)
+  </div>
+
+  <!-- CANVAS 9 BLOCOS -->
+  <div class="bmc">
+
+    <!-- PARCEIROS -->
+    <div class="cell al">
+      <h3>Parceiros-Chave</h3>
+      <ul>
+        <li><span class="tag t-sal">SAL</span>DistroKid (distribuição musical)</li>
+        <li><span class="tag t-orb">ORB</span>Hotmart (cursos e comunidade paga)</li>
+        <li><span class="tag t-fef">FEF</span>Workana · 99Freelas · Upwork</li>
+        <li><span class="tag t-fef">FEF</span>LinkedIn (prospecção B2B)</li>
+        <li><span class="tag t-orb">ORB</span>Microsoft 365 / orbitaspace.com.br</li>
+      </ul>
+    </div>
+
+    <!-- ATIVIDADES + RECURSOS -->
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div class="cell ag" style="flex:1">
+        <h3>Atividades-Chave</h3>
+        <ul>
+          <li><span class="tag t-sal">SAL</span>Produção musical e conteúdo TikTok/IG</li>
+          <li><span class="tag t-fef">FEF</span>Conteúdo YouTube · TikTok · LinkedIn</li>
+          <li><span class="tag t-fef">FEF</span>Consultoria BI e análise estatística</li>
+          <li><span class="tag t-orb">ORB</span>Gestão Discord + comunidade Hotmart</li>
+        </ul>
+      </div>
+      <div class="cell ag" style="flex:1">
+        <h3>Recursos-Chave</h3>
+        <ul>
+          <li><span class="tag t-fef">FEF</span>Felipe: estatístico + criador de conteúdo</li>
+          <li><span class="tag t-orb">ORB</span>Marca Órbita + sub-marcas</li>
+          <li><span class="tag t-sal">SAL</span>Catálogo musical: SAL, BRASA e NÉVOA</li>
+          <li><span class="tag t-orb">ORB</span>MEI + domínio orbitaspace.com.br</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PROPOSTA DE VALOR -->
+    <div class="cell ab">
+      <h3>Proposta de Valor</h3>
+      <ul>
+        <li><span class="tag t-sal">SAL</span>Jornada de autoconhecimento e integração da sombra via música + curso estruturado</li>
+        <li><span class="tag t-fef">FEF</span>Análise de dados e BI que ajuda PMEs e pesquisadores a tomar decisões com segurança</li>
+        <li><span class="tag t-orb">ORB</span>Comunidade que une desenvolvimento pessoal e profissional no mesmo espaço</li>
+      </ul>
+    </div>
+
+    <!-- RELACIONAMENTO + CANAIS -->
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div class="cell ab" style="flex:1">
+        <h3>Relacionamento</h3>
+        <ul>
+          <li>Conteúdo gratuito como topo de funil</li>
+          <li>Discord como engajamento contínuo</li>
+          <li>Consultoria 1:1 (projetos pontuais)</li>
+          <li>Cursos assíncronos na Hotmart</li>
+        </ul>
+      </div>
+      <div class="cell ab" style="flex:1">
+        <h3>Canais</h3>
+        <ul>
+          <li><span class="tag t-sal">SAL</span>TikTok · Instagram · Spotify</li>
+          <li><span class="tag t-fef">FEF</span>YouTube · TikTok · LinkedIn</li>
+          <li><span class="tag t-orb">ORB</span>Discord · Hotmart</li>
+          <li><span class="tag t-orb">ORB</span>orbitaspace.com.br · Linktree</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SEGMENTOS -->
+    <div class="cell ar">
+      <h3>Segmentos de Clientes</h3>
+      <ul>
+        <li><span class="tag t-sal">SAL</span>Pessoas em jornada espiritual / autoconhecimento</li>
+        <li><span class="tag t-fef">FEF</span>Estudantes com TCC, dissertação ou tese</li>
+        <li><span class="tag t-fef">FEF</span>PMEs que precisam de dashboard para decisão</li>
+        <li><span class="tag t-fef">FEF</span>Profissionais em transição para dados</li>
+        <li><span class="tag t-orb">ORB</span>Público que transita entre as duas vertentes</li>
+      </ul>
+    </div>
+
+    <!-- LINHA INFERIOR -->
+    <div class="row-bottom">
+      <div class="cell ar">
+        <h3>Fontes de Receita</h3>
+        <ul>
+          <li><span class="tag t-fef">FEF</span>Consultoria BI: projeto pontual</li>
+          <li><span class="tag t-fef">FEF</span>Análise estatística: TCC e dissertação</li>
+          <li><span class="tag t-sal">SAL</span>Curso Hotmart: Autoconhecimento</li>
+          <li><span class="tag t-fef">FEF</span>Curso Hotmart: Dados &amp; Negócios</li>
+          <li><span class="tag t-sal">SAL</span>Royalties de streaming (Spotify etc.)</li>
+        </ul>
+      </div>
+      <div class="cell ac">
+        <h3>Estrutura de Custos</h3>
+        <ul>
+          <li>DistroKid: distribuição musical (anual)</li>
+          <li>Microsoft 365 Business Basic (~R$ 33/mês)</li>
+          <li>Hotmart: comissão sobre vendas (~9,9%)</li>
+          <li>Midjourney + ferramentas de IA</li>
+          <li>Domínio orbitaspace.com.br</li>
+          <li>Discord (gratuito por ora)</li>
+        </ul>
+      </div>
+      <div class="cell ag">
+        <h3>Diferenciais Competitivos</h3>
+        <ul>
+          <li>Rigor metodológico (Estatística + Mestrado)</li>
+          <li>Experiência prática em BI (Prumo / A3Data)</li>
+          <li>Multilíngue: PT · ES · EN</li>
+          <li>Marca pessoal consolidada + comunidade própria</li>
+          <li>Operação enxuta via MEI (baixo custo fixo)</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SEÇÃO CNAEs PARA ANÁLISE -->
+  <div class="cnae-section">
+    <h2>📋 CNAEs adicionais para análise</h2>
+    <p class="cnae-intro">Atividades identificadas no modelo de negócios que podem não estar cobertas pelos CNAEs atuais. A validação e escolha final devem ser feitas com a contadora.</p>
+
+    <div class="cnae-grid">
+
+      <div class="cnae-card primary">
+        <div class="cnae-label">✦ Para análise: @fefonsek / Consultoria em dados</div>
+        <div class="cnae-cod">6204-0/00</div>
+        <div class="cnae-name">Consultoria em tecnologia da informação</div>
+        <div class="cnae-desc">Cobre consultorias em BI, Power BI, dashboards e análise de dados para empresas. Verifique se é compatível com MEI e se substitui ou complementa o 8599-6/99 atual.</div>
+      </div>
+
+      <div class="cnae-card primary">
+        <div class="cnae-label">✦ Para análise: Consultoria estatística / TCC</div>
+        <div class="cnae-cod">7420-0/99</div>
+        <div class="cnae-name">Atividades de consultoria científica e técnica (outras)</div>
+        <div class="cnae-desc">Pode cobrir análise estatística aplicada, consultoria metodológica e suporte a pesquisas acadêmicas (TCC, dissertações, teses).</div>
+      </div>
+
+      <div class="cnae-card secondary">
+        <div class="cnae-label">◈ Para análise: Cursos na Hotmart (@fefonsek)</div>
+        <div class="cnae-cod">8599-6/04</div>
+        <div class="cnae-name">Treinamento em desenvolvimento profissional e gerencial</div>
+        <div class="cnae-desc">Cursos de dados, negócios e estratégia. Verificar se o CNAE principal atual (8599-6/99) já cobre essa atividade ou se é necessário cadastrar este.</div>
+      </div>
+
+      <div class="cnae-card secondary">
+        <div class="cnae-label">◈ Para análise: Cursos na Hotmart (Saline Astral)</div>
+        <div class="cnae-cod">8599-6/99</div>
+        <div class="cnae-name">Outras atividades de ensino não especificadas anteriormente</div>
+        <div class="cnae-desc">Já registrado como principal. Confirmar se cobre também cursos de autoconhecimento e espiritualidade comercializados na Hotmart.</div>
+      </div>
+
+      <div class="cnae-card tertiario">
+        <div class="cnae-label">⚠️ A confirmar: produção musical já está coberta?</div>
+        <div class="cnae-cod">9001-9/02</div>
+        <div class="cnae-name">Produção musical</div>
+        <div class="cnae-desc">Já registrado como secundário. Verificar se cobre royalties de streaming (DistroKid/Spotify) e venda de álbuns digitais, ou se é necessário outro CNAE para isso.</div>
+      </div>
+
+      <div class="cnae-card tertiario">
+        <div class="cnae-label">⚠️ Ponto crítico: limite do MEI</div>
+        <div class="cnae-cod">Teto: R$ 144.900/ano</div>
+        <div class="cnae-name">Avaliar migração para ME no Simples Nacional</div>
+        <div class="cnae-desc">O MEI permite apenas 1 CNAE principal e até 2 secundários. Com consultoria + cursos + música, pode ser necessário migrar para ME (teto R$ 360.000/ano, múltiplos CNAEs).</div>
+      </div>
+
+    </div>
+
+    <div class="cnae-obs">
+      <strong>Perguntas para levar à contadora:</strong> (1) Os CNAEs atuais 8599-6/99 e 9001-9/02 cobrem as atividades de consultoria em BI e análise estatística, ou é preciso adicionar um CNAE de TI/consultoria? (2) A consultoria para empresas (Power BI, dashboards) exige CNAE diferente do de ensino? (3) Com a perspectiva de crescimento da consultoria, quando faz sentido migrar do MEI para ME?
+    </div>
+  </div>
+
+  <div class="page-footer">
+    Documento preparado por Felipe Luiz Fonseca · Órbita / orbitaspace.com.br · CNPJ 67.550.599/0001-08 · Outubro de 2026
+  </div>
+
+</body>
+</html>
